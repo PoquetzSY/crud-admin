@@ -426,66 +426,80 @@ function mi_plugin_productos_page() {
         .acciones button.eliminar:hover {
           background-color: #c82333;
         }
-    </style>
-     <div class="formulario">
-        <h1>Gestión de Productos</h1>
-
-        <h2>Agregar Producto</h2>
-        <form method="POST" enctype="multipart/form-data" class="form">
-            <label for="producto">Nombre del Producto:</label>
-            <input type="text" name="producto" required>
-            <br>
-            <label for="precio">Precio:</label>
-            <input type="number" name="precio" required>
-            <br>
-            <label for="categoria">Categoría:</label>
-            <select name="categoria" required>
-                <?php
-                // Obtener todas las categorías de la base de datos
-                $categorias = $wpdb->get_results("SELECT id, nombre FROM $categorias_table_name");
-
-                foreach ($categorias as $categoria) {
-                    echo '<option value="' . esc_attr($categoria->id) . '">' . esc_html($categoria->nombre) . '</option>';
-                }
-                ?>
-            </select>
-            <br>
-            <label for="descripcion">Descripción:</label>
-            <textarea name="descripcion"></textarea>
-            <div id="drop-area" class="file-upload">
-                <label for="imagen" class="custom-button">Seleccionar o Arrastrar Imágenes</label>
-                <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" onchange="validateFileType()" multiple>
-            </div>
-            <ul id="preview-container" class="preview-list"></ul>
-            <input type="hidden" name="product_id" value="">
-            <input type="submit" name="submit_create" class="boton" value="Agregar Producto">
-        </form>
-
-        <h2>Listado de Productos</h2>
-
-        <?php
-        // Obtener todos los productos de la base de datos
-        $productos = $wpdb->get_results("SELECT * FROM $table_name");
-
-        if ($productos) {
-            foreach ($productos as $producto) {
-                echo '<div id="catalogo">';
-                echo   '<div class="producto">';
-                echo     '<img src="https://th.bing.com/th/id/R.739ef233dbe8982a402ec6ca003e95c1?rik=%2fsks%2b8kT%2bGKfaA&pid=ImgRaw&r=0" alt="Nombre del producto">';
-                echo     '<h3>'.$producto->producto.'</h3>';
-                echo     '<p>Precio: $'.$producto->precio.'</p>';
-                echo     '<div class="acciones">';
-                echo      '<button class="editar">Editar</button>';
-                echo      '<button class="eliminar" onclick="window.location.href=\'?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '\'">Eliminar</button>';
-                echo     '</div>';
-                echo   '</div>';
-                echo '</div>';
-            }
-        } else {
-            echo 'No se encontraron productos.';
+        .cat{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
         }
-        ?>
-    </div>
+        h2{
+          text-align: center;
+        }
+        .botones-f{
+          display: flex;
+          justify-content: center;
+        }
+    </style>
+        <div class="formulario">
+            <h1>Gestión de Productos</h1>
+         
+            <h2>Agregar Producto</h2>
+            <form method="POST" enctype="multipart/form-data" class="form">
+                <label for="producto">Nombre del Producto:</label>
+                <input type="text" name="producto" required>
+                <br>
+                <label for="precio">Precio:</label>
+                <input type="number" name="precio" required>
+                <br>
+                <label for="categoria">Categoría:</label>
+                <select name="categoria" required>
+                    <?php
+                    // Obtener todas las categorías de la base de datos
+                    $categorias = $wpdb->get_results("SELECT id, nombre FROM $categorias_table_name");
+         
+                    foreach ($categorias as $categoria) {
+                        echo '<option value="' . esc_attr($categoria->id) . '">' . esc_html($categoria->nombre) . '</option>';
+                    }
+                    ?>
+                </select>
+                <br>
+                <label for="descripcion">Descripción:</label>
+                <textarea name="descripcion"></textarea>
+                <div id="drop-area" class="file-upload">
+                    <label for="imagen" class="custom-button">Seleccionar o Arrastrar Imágenes</label>
+                    <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" onchange="validateFileType()" multiple>
+                </div>
+                <ul id="preview-container" class="preview-list"></ul>
+                <input type="hidden" name="product_id" value="">
+                <div class="botones-f">
+                  <input type="submit" name="submit_create" class="boton" value="Agregar Producto">
+                </div>
+            </form>
+        </div>
+        <h2>Listado de Productos</h2>
+        <div class="cat">
+          <?php
+          // Obtener todos los productos de la base de datos
+          $productos = $wpdb->get_results("SELECT * FROM $table_name");
+
+          if ($productos) {
+              foreach ($productos as $producto) {
+                  echo '<div id="catalogo">';
+                  echo   '<div class="producto">';
+                  echo     '<img src="https://th.bing.com/th/id/R.739ef233dbe8982a402ec6ca003e95c1?rik=%2fsks%2b8kT%2bGKfaA&pid=ImgRaw&r=0" alt="Nombre del producto">';
+                  echo     '<h3>'.$producto->producto.'</h3>';
+                  echo     '<p>Precio: $'.$producto->precio.'</p>';
+                  echo     '<div class="acciones">';
+                  echo      '<button class="editar">Editar</button>';
+                  echo      '<button class="eliminar" onclick="window.location.href=\'?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '\'">Eliminar</button>';
+                  echo     '</div>';
+                  echo   '</div>';
+                  echo '</div>';
+              }
+          } else {
+              echo 'No se encontraron productos.';
+          }
+          ?>
+        </div>
 <script>
     function validateFileType(){
         var fileName = document.getElementById("imagen").value;
