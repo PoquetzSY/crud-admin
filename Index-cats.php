@@ -171,17 +171,21 @@ function mi_plugin_categorias_page_cats() {
             margin-top: 10px;
         }
         table {
-            font-family: arial, sans-serif;
+            table-layout: fixed;
+            width: 90%;
             border-collapse: collapse;
-            width: 100%;
+            font-size: 1rem;
         }
-
+        thead{
+            background-color: transparent;
+        }
         td, th {
-            border: 1px solid #dddddd;
+            border-bottom: 1px solid #ddd;
             text-align: left;
-            padding: 8px;
+            padding: 20px;
         }
-
+        th a{
+        }
         tr:nth-child(even) {
             background-color: #dddddd;
         }
@@ -239,12 +243,14 @@ function mi_plugin_categorias_page_cats() {
 
         if ($categorias) {
             echo '<table>';
+                echo '<thead>';
+                    echo '<tr>';
+                        echo '<th>Nombre</th>';
+                        echo '<th>Tipo de material</th>';
+                        echo '<th></th>';
+                    echo '</tr>';
+                echo '</thead>';
             foreach ($categorias as $categoria) {
-                echo '<tr>';
-                    echo '<th>Nombre</th>';
-                    echo '<th>Tipo de material</th>';
-                    echo '<th>Acciones</th>';
-                echo '</tr>';
                 echo '<tr>';
                     echo '<td>' .esc_html($categoria->nombre).'</td>';
                     echo '<td>' . esc_html($categoria->tipo_material) . '</td>';
