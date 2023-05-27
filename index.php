@@ -476,7 +476,7 @@ function mi_plugin_productos_page() {
                 echo     '<p>Precio: $'.$producto->precio.'</p>';
                 echo     '<div class="acciones">';
                 echo      '<button class="editar" href="?page=mi-plugin-productos&action=edit&product_id=' . $producto->id . '">Editar</button>';
-                echo       '<button class="eliminar"  href="?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '">Eliminar</button>';
+                echo       '<button class="eliminar"   href="?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '">Eliminar</button>';
                 echo     '</div>';
                 echo   '</div>';
                 echo '</div>';
