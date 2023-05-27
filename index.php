@@ -106,7 +106,36 @@ function mi_plugin_productos_page() {
             )
         );
     }
-
+    if (isset($_POST['submit_edit'])) {
+        $id = absint($_POST['product_id']);
+        $producto = sanitize_text_field($_POST['producto']);
+        $categoria_id = sanitize_text_field($_POST['categoria']);
+        $precio = sanitize_text_field($_POST['precio']);
+        $descripcion = sanitize_textarea_field($_POST['descripcion']);
+    
+        $imagen_id = array();
+        if (!empty($_FILES['imagen']['name'])) {
+            $image_count = isset($_FILES['imagen']['name']) && is_array($_FILES['imagen']['name']) ? count($_FILES['imagen']['name']) : 0;
+            for ($i = 0; $i < $image_count; $i++) {
+                $imagen_id = mi_plugin_handle_upload($_FILES['imagen']['tmp_name'][$i]);
+                if (!is_wp_error($imagen_id)) {
+                    $imagen_id[] = $imagen_id;
+                }
+            }
+        }
+    
+        $wpdb->update(
+            $table_name,
+            array(
+                'producto' => $producto,
+                'categoria' => $categoria_id,
+                'precio' => $precio,
+                'descripcion' => $descripcion,
+                'imagen_id' => !empty($imagen_id) ? implode(',', $imagen_id) : '',
+            ),
+            array('id' => $id)
+        );
+    }
 
     // Procesar solicitud de eliminación de producto
     if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['product_id'])) {
@@ -377,6 +406,7 @@ function mi_plugin_productos_page() {
                 <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" onchange="validateFileType()" multiple>
             </div>
             <ul id="preview-container" class="preview-list"></ul>
+            <input type="hidden" name="product_id" value="">
             <input type="submit" name="submit_create" class="boton" value="Agregar Producto">
         </form>
 
@@ -410,7 +440,11 @@ function mi_plugin_productos_page() {
                             echo '<td><img src="' . esc_url($imagen_url[0]) . '" alt="Imagen del producto"></td>';
                         }
                     }
-                    echo '<td> <a class="delete" href="?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '">Eliminar</a> </td>';
+                    echo '<td>';
+                        echo '<a href="?page=mi-plugin-productos&action=edit&product_id=' . $producto->id . '">Editar</a>';
+                        echo ' | ';
+                        echo '<a class="delete" href="?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '">Eliminar</a>';
+                    echo '</td>';
                 echo '</tr>';
             }
             echo '</table>';
