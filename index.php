@@ -360,20 +360,71 @@ function mi_plugin_productos_page() {
         .delete-button:hover {
           background-color: #d32f2f;
         }
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
+        #catalogo {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        
+        .producto {
+          width: 200px;
+          margin: 10px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .producto img {
+          width: 150px;
+          height: 150px;
+          object-fit: cover;
+          margin-bottom: 10px;
+          display: block;
+          margin: 10px auto 0;
+          border-radius: 10px;
+        }
+        
+        .producto h3 {
+          font-size: 18px;
+          margin-bottom: 5px;
+        }
+        
+        .producto p {
+          font-size: 16px;
+          margin-bottom: 10px;
+        }
+        
+        .acciones button {
+          margin: 10px 5px;
+          padding: 5px 10px;
+          border: none;
+          border-radius: 5px;
+          background-color: #eee;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
         }
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
+        .acciones button:hover {
+          background-color: #dcdcdc;
         }
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
+        .acciones button.editar {
+          background-color: #ffc107;
+        }
+
+        .acciones button.editar:hover {
+          background-color: #e6ac00;
+        }
+
+        .acciones button.eliminar {
+          background-color: #dc3545;
+          color: #fff;
+        }
+
+        .acciones button.eliminar:hover {
+          background-color: #c82333;
         }
     </style>
      <div class="formulario">
@@ -411,43 +462,25 @@ function mi_plugin_productos_page() {
         </form>
 
         <h2>Listado de Productos</h2>
+
         <?php
         // Obtener todos los productos de la base de datos
         $productos = $wpdb->get_results("SELECT * FROM $table_name");
 
         if ($productos) {
-            echo '<table>';
             foreach ($productos as $producto) {
-                echo '<tr>';
-                    echo '<th>Nombre</th>';
-                    echo '<th>Precio</th>';
-                    echo '<th>Categoria</th>';
-                    echo '<th>Descripcion</th>';
-                    echo '<th>Imagenes</th>';
-                    echo '<th>Acciones</th>';
-                echo '</tr>';
-                echo '<tr>';
-                    echo '<td>' .esc_html($producto->producto).'</td>';
-                    echo '<td>' . esc_html($producto->precio) . '</td>';
-                    $categoria = $wpdb->get_row($wpdb->prepare("SELECT nombre FROM $categorias_table_name WHERE id = %d", $producto->categoria));
-                    if ($categoria) {
-                        echo '<td>' . esc_html($categoria->nombre) . '</td>';
-                    }
-                    echo '<td>' . esc_html($producto->descripcion) . '</td>';
-                    if ($producto->imagen_id) {
-                        $imagen_url = wp_get_attachment_image_src($producto->imagen_id, 'thumbnail');
-                        if ($imagen_url) {
-                            echo '<td><img src="' . esc_url($imagen_url[0]) . '" alt="Imagen del producto"></td>';
-                        }
-                    }
-                    echo '<td>';
-                        echo '<a href="?page=mi-plugin-productos&action=edit&product_id=' . $producto->id . '">Editar</a>';
-                        echo ' | ';
-                        echo '<a class="delete" href="?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '">Eliminar</a>';
-                    echo '</td>';
-                echo '</tr>';
+                echo '<div id="catalogo">';
+                echo   '<div class="producto">';
+                echo     '<img src="https://th.bing.com/th/id/R.739ef233dbe8982a402ec6ca003e95c1?rik=%2fsks%2b8kT%2bGKfaA&pid=ImgRaw&r=0" alt="Nombre del producto">';
+                echo     '<h3>'.$producto->producto.'</h3>';
+                echo     '<p>Precio: $'.$producto->precio.'</p>';
+                echo     '<div class="acciones">';
+                echo      '<button class="editar">Editar</button>';
+                echo       '<button class="eliminar">Eliminar</button>';
+                echo     '</div>';
+                echo   '</div>';
+                echo '</div>';
             }
-            echo '</table>';
         } else {
             echo 'No se encontraron productos.';
         }
