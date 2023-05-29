@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Gestión de Productos
-Plugin URI: https://www.ejemplo.com
+Plugin URI: 
 Description: Plugin para gestión de productos.
 Version: 1.0
 Author: Isaac, Diego & Luis
-Author URI: https://www.tunombre.com
+Author URI: 
 License: GPLv2 or later
 Text Domain: mi-plugin
 */
