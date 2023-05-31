@@ -313,6 +313,7 @@ function mostrar_pagina() {
           display: flex;
           flex-direction: column;
           align-items: center;
+          border-radius: 5px;
         }
 
         .producto img {
