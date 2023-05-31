@@ -12,31 +12,42 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
 // Función para agregar productos al carrito
 function agregar_al_carrito($producto_id, $cantidad = 1) {
-    session_start();
-
-    // Verificar si el carrito ya existe en la sesión
-    if (!isset($_SESSION['carrito'])) {
-        $_SESSION['carrito'] = array();
-    }
+    $carrito = obtener_carrito_de_cookies();
 
     // Verificar si el producto ya está en el carrito
-    if (isset($_SESSION['carrito'][$producto_id])) {
+    if (isset($carrito[$producto_id])) {
         // Si el producto ya está en el carrito, aumentar la cantidad
-        $_SESSION['carrito'][$producto_id] += $cantidad;
+        $carrito[$producto_id] += $cantidad;
     } else {
         // Si el producto no está en el carrito, agregarlo
-        $_SESSION['carrito'][$producto_id] = $cantidad;
+        $carrito[$producto_id] = $cantidad;
     }
+
+    // Guardar el carrito en las cookies
+    guardar_carrito_en_cookies($carrito);
+}
+
+// Función para obtener el carrito de las cookies
+function obtener_carrito_de_cookies() {
+    $carrito_serializado = isset($_COOKIE['carrito_compras']) ? $_COOKIE['carrito_compras'] : '';
+    $carrito = unserialize($carrito_serializado);
+    return is_array($carrito) ? $carrito : array();
+}
+
+// Función para guardar el carrito en las cookies
+function guardar_carrito_en_cookies($carrito) {
+    $carrito_serializado = serialize($carrito);
+    setcookie('carrito_compras', $carrito_serializado, time() + (86400 * 30), '/'); // Caducidad de la cookie: 30 días
 }
 
 // Función para mostrar los productos en el carrito
 function mostrar_carrito() {
+    $carrito = obtener_carrito_de_cookies();
 
-    // Verificar si el carrito existe en la sesión
-    if (isset($_SESSION['carrito'])) {
+    if (!empty($carrito)) {
         $carrito_html = '<ul>';
 
-        foreach ($_SESSION['carrito'] as $producto_id => $cantidad) {
+        foreach ($carrito as $producto_id => $cantidad) {
             // Obtener los detalles del producto según su ID
             $producto = get_post($producto_id);
 
