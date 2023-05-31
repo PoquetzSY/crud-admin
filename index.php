@@ -369,36 +369,25 @@ function mostrar_pagina() {
         <?php
         // Obtener todos los productos de la base de datos
         $productos = $wpdb->get_results("SELECT * FROM $Ntabla");
-
         if ($productos) {
-            echo '<table>';
             foreach ($productos as $producto) {
-                echo '<tr>';
-                    echo '<th>Nombre</th>';
-                    echo '<th>Precio</th>';
-                    echo '<th>Categoria</th>';
-                    echo '<th>Descripcion</th>';
-                    echo '<th>Imagenes</th>';
-                    echo '<th>Acciones</th>';
-                echo '</tr>';
-                echo '<tr>';
-                    echo '<td>' .esc_html($producto->producto).'</td>';
-                    echo '<td>' . esc_html($producto->precio) . '</td>';
-                    $categoria = $wpdb->get_row($wpdb->prepare("SELECT nombre FROM $categorias_tabla WHERE id = %d", $producto->categoria));
-                    if ($categoria) {
-                        echo '<td>' . esc_html($categoria->nombre) . '</td>';
+                echo '<div id="catalogo">';    
+                echo  '<div class="producto">';
+                if ($producto->imagen_id) {
+                    $imagen_url = wp_get_attachment_image_src($producto->imagen_id, 'thumbnail');
+                    if ($imagen_url) {
+                        echo '<img src="' . $imagen_url[0] . '" alt="Imagen del producto">';
                     }
-                    echo '<td>' . esc_html($producto->descripcion) . '</td>';
-                    if ($producto->imagen_id) {
-                        $imagen_url = wp_get_attachment_image_src($producto->imagen_id, 'thumbnail');
-                        if ($imagen_url) {
-                            echo '<td><img src="' . esc_url($imagen_url[0]) . '" alt="Imagen del producto"></td>';
-                        }
-                    }
-                    echo '<td> <a class="delete" href="?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '">Eliminar</a> </td>';
-                echo '</tr>';
+                }
+                echo    '<h3>'. $producto->producto .'</h3>';
+                echo    '<p>'. $producto->precio .'</p>';
+                echo    '<div class="acciones">';
+                echo      '<button class="editar">Editar</button>';
+                echo      '<button class="eliminar">Eliminar</button>';
+                echo    '</div>';
+                echo  '</div>';
+                echo'</div>';
             }
-            echo '</table>';
         } else {
             echo 'No se encontraron productos.';
         }
