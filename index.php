@@ -118,7 +118,6 @@ function mostrar_pagina() {
             flex-direction: column;
             width: 100%;
             align-items: center;
-            margin: 20px
         }
         .form{
             background-color: lightgray;
@@ -161,26 +160,10 @@ function mostrar_pagina() {
             padding: .7rem;
             border-radius: 10px;
             color: white;
-            margin-top: 10px;
         }
         .boton:hover{
             cursor: pointer;
             background-color: #154c78;
-        }
-        .botonc{
-            background-color: #e42222;
-            border: 0;
-            width: 200px;
-            font-size: 1rem;
-            font-weight: light;
-            padding: .7rem;
-            border-radius: 10px;
-            color: white;
-            margin-top: 10px;
-        }
-        .botonc:hover{
-            cursor: pointer;
-            background-color: #b12222;
         }
         input[type=text]{
             background-color: transparent;
@@ -316,23 +299,88 @@ function mostrar_pagina() {
         .delete-button:hover {
           background-color: #d32f2f;
         }
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
+        #catalogo {
+          display: flex;
+          flex-wrap: wrap;
         }
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
+        .producto {
+          width: 200px;
+          margin: 10px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
+        .producto img {
+          width: 150px;
+          height: 150px;
+          object-fit: cover;
+          margin-bottom: 10px;
+          display: block;
+          margin: 10px auto 0;
+        }
+
+        .producto h3 {
+          font-size: 18px;
+          margin-bottom: 5px;
+        }
+
+        .producto p {
+          font-size: 16px;
+          margin-bottom: 5px;
+        }
+        .acciones{
+            display: flex;
+            justify-content: center;
+        }
+        .acciones button {
+            margin: 10px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #eee;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+        
+        .acciones button:hover {
+          background-color: #dcdcdc;
+        }
+        
+        .acciones button.editar {
+          background-color: #ffc107;
+        }
+        
+        .acciones button.editar:hover {
+          background-color: #e6ac00;
+        }
+        
+        .acciones button.eliminar {
+          background-color: #dc3545;
+          color: #fff;
+        }
+        
+        .acciones button.eliminar:hover {
+          background-color: #c82333;
+        }
+        .Lp{
+            text-align: center;
+        }
+        .Lproducts{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+        .botonform{
+            display: flex;
+            justify-content: center;
         }
     </style>
-     <div class="formulario">
+    <div class="formulario">
         <h1>Gestión de Productos</h1>
 
         <h2>Agregar Producto</h2>
@@ -362,10 +410,13 @@ function mostrar_pagina() {
                 <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" onchange="validateFileType()" multiple>
             </div>
             <ul id="preview-container" class="preview-list"></ul>
-            <input type="submit" name="subir-crear" class="boton" value="Agregar Producto">
+            <div class="botonform">
+                <input type="submit" name="subir-crear" class="boton" value="Agregar Producto">
+            </div>
         </form>
-
-        <h2>Listado de Productos</h2>
+    </div>
+    <h2 class="Lp">Listado de Productos</h2>
+    <div class="Lproducts">
         <?php
         // Obtener todos los productos de la base de datos
         $productos = $wpdb->get_results("SELECT * FROM $Ntabla");
@@ -380,10 +431,14 @@ function mostrar_pagina() {
                     }
                 }
                 echo    '<h3>'. $producto->producto .'</h3>';
-                echo    '<p>'. $producto->precio .'</p>';
+                $categoria = $wpdb->get_row($wpdb->prepare("SELECT nombre FROM $categorias_tabla WHERE id = %d", $producto->categoria));
+                    if ($categoria) {
+                        echo '<p>' . $categoria->nombre . '</p>';
+                    }
+                echo    '<p>$'. $producto->precio .'</p>';
                 echo    '<div class="acciones">';
                 echo      '<button class="editar">Editar</button>';
-                echo      '<button class="eliminar">Eliminar</button>';
+                echo      '<button class="eliminar" onclick="window.location.href=\'?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '\'">Eliminar</button>';
                 echo    '</div>';
                 echo  '</div>';
                 echo'</div>';
