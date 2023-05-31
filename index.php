@@ -50,62 +50,69 @@ function mi_plugin_menu() {
     );
 }
 
-// Función para subir la imagen y obtener su ID
-function mi_plugin_handle_upload($file) {
-    require_once ABSPATH . 'wp-admin/includes/image.php';
-    require_once ABSPATH . 'wp-admin/includes/file.php';
-    require_once ABSPATH . 'wp-admin/includes/media.php';
+// Función para subir las imágenes y obtener sus IDs
+function mi_plugin_handle_upload($image_data) {
+  require_once ABSPATH . 'wp-admin/includes/image.php';
+  require_once ABSPATH . 'wp-admin/includes/file.php';
+  require_once ABSPATH . 'wp-admin/includes/media.php';
 
-    $attachment_id = media_handle_upload($file, 0, array());
+  $attachment_id = media_handle_sideload($image_data, 0);
 
-    if (is_wp_error($attachment_id)) {
-        // Error al subir la imagen, puedes manejar el error aquí si es necesario
-        return false;
-    }
+  if (!is_wp_error($attachment_id)) {
+      return $attachment_id;
+  }
 
-    return $attachment_id;
+  return false;
 }
-
 
 // Mostrar la página de gestión de productos en el panel de administración
 function mi_plugin_productos_page() {
-    if (!current_user_can('manage_options')) {
-        return;
-    }
+  if (!current_user_can('manage_options')) {
+      return;
+  }
 
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'productos';
-    $categorias_table_name = $wpdb->prefix . 'categorias';
+  global $wpdb;
+  $table_name = $wpdb->prefix . 'productos';
+  $categorias_table_name = $wpdb->prefix . 'categorias';
 
-    // Procesar formulario de creación de producto
-    if (isset($_POST['submit_create'])) {
-        $producto = sanitize_text_field($_POST['producto']);
-        $categoria_id = sanitize_text_field($_POST['categoria']);
-        $precio = sanitize_text_field($_POST['precio']);
-        $descripcion = sanitize_textarea_field($_POST['descripcion']);
-    
-        $imagen_id = array();
-        if (!empty($_FILES['imagen']['name'])) {
-            $image_count = isset($_FILES['imagen']['name']) && is_array($_FILES['imagen']['name']) ? count($_FILES['imagen']['name']) : 0;
-            for ($i = 0; $i < $image_count; $i++) {
-                $imagen_id = mi_plugin_handle_upload($_FILES['imagen']['tmp_name'][$i]);
-                if (!is_wp_error($imagen_id)) {
-                    $imagen_id[] = $imagen_id;
-                }
-            }
-        }
-    
-        $wpdb->insert(
-            $table_name,
-            array(
-                'producto' => $producto,
-                'categoria' => $categoria_id,
-                'precio' => $precio,
-                'descripcion' => $descripcion,
-                'imagen_id' => !empty($imagen_id) ? implode(',', $imagen_id) : '',
-            )
-        );
-    }
+  // Procesar formulario de creación de producto
+  if (isset($_POST['submit_create'])) {
+      // Obtener los datos del formulario
+      $producto = sanitize_text_field($_POST['producto']);
+      $categoria_id = sanitize_text_field($_POST['categoria']);
+      $precio = sanitize_text_field($_POST['precio']);
+      $descripcion = sanitize_textarea_field($_POST['descripcion']);
+
+      // Manejar la carga de las imágenes
+      if (!empty($_FILES['images']['tmp_name'][0])) {
+          $uploaded_image_ids = array();
+          $image_files = $_FILES['images'];
+
+          foreach ($image_files['tmp_name'] as $key => $tmp_name) {
+              if (empty($tmp_name)) {
+                  continue;
+              }
+
+              $image_data = array(
+                  'name'     => $image_files['name'][$key],
+                  'type'     => $image_files['type'][$key],
+                  'tmp_name' => $tmp_name,
+                  'error'    => $image_files['error'][$key],
+                  'size'     => $image_files['size'][$key]
+              );
+
+              $attachment_id = mi_plugin_handle_upload($image_data);
+
+              if ($attachment_id) {
+                  $uploaded_image_ids[] = $attachment_id;
+              }
+          }
+
+          // Guardar los IDs de las imágenes en la base de datos
+          $imagen_ids = implode(',', $uploaded_image_ids);
+      }
+  }
+
     if (isset($_POST['submit_edit'])) {
         $id = absint($_POST['product_id']);
         $producto = sanitize_text_field($_POST['producto']);
@@ -457,7 +464,7 @@ function mi_plugin_productos_page() {
                     $categorias = $wpdb->get_results("SELECT id, nombre FROM $categorias_table_name");
          
                     foreach ($categorias as $categoria) {
-                        echo '<option value="' . esc_attr($categoria->id) . '">' . esc_html($categoria->nombre) . '</option>';
+                        echo '<option value="' . $categoria->id . '">' . $categoria->nombre . '</option>';
                     }
                     ?>
                 </select>
@@ -466,7 +473,7 @@ function mi_plugin_productos_page() {
                 <textarea name="descripcion"></textarea>
                 <div id="drop-area" class="file-upload">
                     <label for="imagen" class="custom-button">Seleccionar o Arrastrar Imágenes</label>
-                    <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" onchange="validateFileType()" multiple>
+                    <input type="file" name="images[]" id="imagen" accept=".jpg,.jpeg,.png" onchange="validateFileType()" multiple>
                 </div>
                 <ul id="preview-container" class="preview-list"></ul>
                 <input type="hidden" name="product_id" value="">
