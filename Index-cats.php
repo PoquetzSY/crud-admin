@@ -254,7 +254,7 @@ function mi_plugin_categorias_page_cats() {
                 echo '<tr>';
                     echo '<td>' .esc_html($categoria->nombre).'</td>';
                     echo '<td>' . esc_html($categoria->tipo_material) . '</td>';
-                    echo '<td> <a class="delete" href="?page=mi-plugin-categorias&action=delete&categoria_id=' . $categoria->id . '">Eliminar</a> </td>';
+                    echo '<td> <a class="eliminarc" href="?page=mi-plugin-categorias&action=delete&categoria_id=' . $categoria->id . '">Eliminar</a> </td>';
                 echo '</tr>';
             }
             echo '</table>';

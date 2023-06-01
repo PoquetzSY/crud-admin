@@ -152,12 +152,12 @@ input::-webkit-inner-spin-button {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.delete:hover {
+.eliminarc:hover {
   color: white;
   cursor: pointer;
   background-color: #b12222;
 }
-.delete {
+.eliminarc {
   text-decoration: none;
   background-color: #e42222;
   border: 0;
