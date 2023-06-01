@@ -29,6 +29,12 @@ function Crear_productos() {
     ) $charset_collate;";
 }
 
+function styles() {
+  // Enlazar tu hoja de estilos
+  wp_enqueue_style( 'style', plugins_url( 'public\assets\css\style.css',__FILE__) );
+}
+add_action( 'admin_enqueue_scripts', 'styles' );
+
 // Agregar menú de gestión de productos en el panel de administración
 add_action('admin_menu', 'plugin_menu');
 function plugin_menu() {
@@ -112,227 +118,8 @@ function mostrar_pagina() {
 
     // Mostrar formulario de creación de producto
     ?>
-    <style>
-        .formulario{
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            align-items: center;
-            margin: 20px
-        }
-        .form{
-            background-color: lightgray;
-            border-radius: 15px;
-            width: 700px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .producto{
-            display: flex;
-            flex-direction: column;
-        }
-        .box-p{
-            display: flex;
-            justify-content: space-between;
-            width: 500px
-        }
-        label{
-            font-weight: 400;
-            font-size: 1rem;
-            margin-bottom: 5px
-        }
-        a{
-            text-decoration:none;
-        }
-        h1{
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-        h2{
-            font-size: 1.5rem
-        }
-        .boton{
-            background-color: #2271b1;
-            border: 0;
-            width: 200px;
-            font-size: 1rem;
-            font-weight: light;
-            padding: .7rem;
-            border-radius: 10px;
-            color: white;
-            margin-top: 10px;
-        }
-        .boton:hover{
-            cursor: pointer;
-            background-color: #154c78;
-        }
-        .botonc{
-            background-color: #e42222;
-            border: 0;
-            width: 200px;
-            font-size: 1rem;
-            font-weight: light;
-            padding: .7rem;
-            border-radius: 10px;
-            color: white;
-            margin-top: 10px;
-        }
-        .botonc:hover{
-            cursor: pointer;
-            background-color: #b12222;
-        }
-        input[type=text]{
-            background-color: transparent;
-            border: 0;
-            border-bottom: 2px solid rgba(87, 87, 86, 0.8);
-            border-radius: 0;
-        }
-        input[type=text]:focus,
-        input[type=text]:active{
-            outline: 0;
-            box-shadow: none;
-            border-color: #1d2327;
-        }
-        input[type=number]{
-            background-color: transparent;
-            border: 0;
-            border-bottom: 2px solid rgba(87, 87, 86, 0.8);
-            border-radius: 0;
-        }
-        input[type=number]:focus,
-        input[type=number]:active{
-            outline: 0;
-            box-shadow: none;
-            border-color: #1d2327;
-        }
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        .file-upload {
-          position: relative;
-          width: 700px;
-          height: 100px;
-          border: 2px dashed gray;
-          margin: 20px auto;
-          text-align: center;
-          line-height: 100px;
-          color: #888;
-        }
-        
-        .custom-button {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: transparent;
-          color: black;
-          font-size: 16px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-        
-        .custom-button:hover {
-          background-color: rgba(0, 0, 0, 0.1);
-        }
-        
-        #imagen {
-          display: none;
-        }
-        
-        .preview-list {
-          list-style: none;
-          padding: 0;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-evenly;
-        }
-        
-        .image-card {
-          width: 200px;
-          margin: 10px;
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-          display: flex;
-          align-items: center;
-        }
-        
-        .preview {
-          width: 70px;
-          height: 70px;
-          object-fit: cover;
-          border-radius: 4px;
-        }
-        
-        .image-info {
-          flex-grow: 1;
-          margin-left: 10px;
-          overflow: hidden;
-        }
-        
-        .image-name {
-          font-weight: bold;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .delete:hover{
-            color:white;
-            cursor: pointer;
-            background-color: #b12222;
-        }
-        .delete{
-            text-decoration:none;
-            background-color: #e42222;
-            border: 0;
-            width: 200px;
-            font-size: 1rem;
-            font-weight: light;
-            padding: .4em;
-            border-radius: 10px;
-            color: white;
-            margin-top: 10px;
-        }
-        .delete-button {
-          display: block;
-          margin-top: 10px;
-          background-color: #f44336;
-          color: white;
-          padding: 6px 12px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-        
-        .delete-button:hover {
-          background-color: #d32f2f;
-        }
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
-     <div class="formulario">
+    <div class="formulario">
         <h1>Gestión de Productos</h1>
 
         <h2>Agregar Producto</h2>
@@ -362,43 +149,39 @@ function mostrar_pagina() {
                 <input type="file" name="imagen" id="imagen" accept=".jpg,.jpeg,.png" onchange="validateFileType()" multiple>
             </div>
             <ul id="preview-container" class="preview-list"></ul>
-            <input type="submit" name="subir-crear" class="boton" value="Agregar Producto">
+            <div class="botonform">
+                <input type="submit" name="subir-crear" class="boton" value="Agregar Producto">
+            </div>
         </form>
-
-        <h2>Listado de Productos</h2>
+    </div>
+    <h2 class="Lp">Listado de Productos</h2>
+    <div class="Lproducts">
         <?php
         // Obtener todos los productos de la base de datos
         $productos = $wpdb->get_results("SELECT * FROM $Ntabla");
-
         if ($productos) {
-            echo '<table>';
             foreach ($productos as $producto) {
-                echo '<tr>';
-                    echo '<th>Nombre</th>';
-                    echo '<th>Precio</th>';
-                    echo '<th>Categoria</th>';
-                    echo '<th>Descripcion</th>';
-                    echo '<th>Imagenes</th>';
-                    echo '<th>Acciones</th>';
-                echo '</tr>';
-                echo '<tr>';
-                    echo '<td>' .esc_html($producto->producto).'</td>';
-                    echo '<td>' . esc_html($producto->precio) . '</td>';
-                    $categoria = $wpdb->get_row($wpdb->prepare("SELECT nombre FROM $categorias_tabla WHERE id = %d", $producto->categoria));
+                echo '<div id="catalogo">';    
+                echo  '<div class="producto">';
+                if ($producto->imagen_id) {
+                    $imagen_url = wp_get_attachment_image_src($producto->imagen_id, 'thumbnail');
+                    if ($imagen_url) {
+                        echo '<img src="' . $imagen_url[0] . '" alt="Imagen del producto">';
+                    }
+                }
+                echo    '<h3>'. $producto->producto .'</h3>';
+                $categoria = $wpdb->get_row($wpdb->prepare("SELECT nombre FROM $categorias_tabla WHERE id = %d", $producto->categoria));
                     if ($categoria) {
-                        echo '<td>' . esc_html($categoria->nombre) . '</td>';
+                        echo '<p>' . $categoria->nombre . '</p>';
                     }
-                    echo '<td>' . esc_html($producto->descripcion) . '</td>';
-                    if ($producto->imagen_id) {
-                        $imagen_url = wp_get_attachment_image_src($producto->imagen_id, 'thumbnail');
-                        if ($imagen_url) {
-                            echo '<td><img src="' . esc_url($imagen_url[0]) . '" alt="Imagen del producto"></td>';
-                        }
-                    }
-                    echo '<td> <a class="delete" href="?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '">Eliminar</a> </td>';
-                echo '</tr>';
+                echo    '<p>$'. $producto->precio .'</p>';
+                echo    '<div class="acciones">';
+                echo      '<button class="editar">Editar</button>';
+                echo      '<button class="eliminar" onclick="window.location.href=\'?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '\'">Eliminar</button>';
+                echo    '</div>';
+                echo  '</div>';
+                echo'</div>';
             }
-            echo '</table>';
         } else {
             echo 'No se encontraron productos.';
         }
@@ -542,7 +325,6 @@ function mostrar_productos_shortcode() {
                     <h3><?php echo esc_html($product->producto); ?></h3>
                     <p>Categoría: <?php echo esc_html($product->categoria); ?></p>
                     <p>Precio: <?php echo $product->precio; ?></p>
-                    <p>Descripción: <?php echo esc_html($product->descripcion); ?></p>
                     <div class="product-images">
                         <?php
                         $image_ids = explode(',', $product->imagen_id);
