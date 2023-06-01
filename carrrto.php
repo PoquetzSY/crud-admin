@@ -37,10 +37,10 @@ function obtener_carrito_de_cookies() {
 // Función para guardar el carrito en las cookies
 function guardar_carrito_en_cookies($carrito) {
     $carrito_serializado = serialize($carrito);
-    setcookie('carrito_compras', $carrito_serializado, time() + (86400 * 30), '/'); // Caducidad de la cookie: 30 días
+    setcookie('carrito_compras', $carrito_serializado, time() + (86400 * 30), '/', '', false, true); // Caducidad de la cookie: 30 días
 }
 
-// Función para mostrar los productos en el carrito
+// Modificar la función mostrar_carrito para agregar el botón de eliminación
 function mostrar_carrito() {
     $carrito = obtener_carrito_de_cookies();
 
@@ -49,13 +49,30 @@ function mostrar_carrito() {
 
         foreach ($carrito as $producto_id => $cantidad) {
             // Obtener los detalles del producto según su ID
-            $producto = get_post($producto_id);
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'productos';
+            $producto = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $producto_id));
+
 
             if ($producto) {
                 $carrito_html .= '<li>';
-                $carrito_html .= '<strong>Nombre:</strong> ' . esc_html($producto->post_title) . '<br>';
-                $carrito_html .= '<strong>Precio:</strong> ' . esc_html(get_post_meta($producto_id, 'precio', true)) . '<br>';
-                $carrito_html .= '<strong>Cantidad:</strong> ' . esc_html($cantidad) . '<br>';
+
+                $carrito_html .= '<strong>Nombre:</strong> ' . ($producto->producto) . '<br>';
+                $carrito_html .= '<strong>Precio:</strong> ' . ($producto->precio) . '<br>';
+                $carrito_html .= '<strong>Cantidad:</strong> ' . ($cantidad) . '<br>';
+                
+            if ($producto->imagen_id) {
+                $imagen_url = wp_get_attachment_image_src($producto->imagen_id, 'thumbnail');
+                if ($imagen_url) {
+                    $carrito_html .= '<img src="' . esc_url($imagen_url[0]) . '" alt="Imagen del producto">';
+                }
+            }
+                // Formulario para eliminar el producto del carrito
+                $carrito_html .= '<form method="post" action="' . esc_url(add_query_arg(array('action' => 'eliminar_del_carrito', 'producto_id' => $producto_id), home_url('/index.php'))) . '">';
+                $carrito_html .= '<input type="hidden" name="producto_id" value="' . esc_attr($producto_id) . '" />';
+                $carrito_html .= '<input type="submit" value="Eliminar" />';
+                $carrito_html .= '</form>';
+
                 $carrito_html .= '</li>';
             }
         }
@@ -68,10 +85,22 @@ function mostrar_carrito() {
     }
 }
 
+
+// Función para eliminar un producto del carrito
+function eliminar_del_carrito($producto_id) {
+    $carrito = obtener_carrito_de_cookies();
+
+    if (isset($carrito[$producto_id])) {
+        unset($carrito[$producto_id]);
+        guardar_carrito_en_cookies($carrito);
+    }
+}
+
 // Función para mostrar el carrito de compras mediante un shortcode
 function mostrar_carrito_shortcode() {
     $carrito_html = '<h2>Carrito de Compras</h2>';
     $carrito_html .= mostrar_carrito();
+
 
     return $carrito_html;
 }
