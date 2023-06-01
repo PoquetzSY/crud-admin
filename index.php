@@ -182,10 +182,6 @@ function mostrar_pagina() {
                         echo '<p>' . $categoria->nombre . '</p>';
                     }
                 echo    '<p>$'. $producto->precio .'</p>';
-                echo    '<div class="acciones">';
-                echo      '<button class="editar">Editar</button>';
-                echo      '<button class="eliminar" onclick="window.location.href=\'?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '\'">Eliminar</button>';
-                echo    '</div>';
                 echo  '</div>';
                 echo'</div>';
             }
