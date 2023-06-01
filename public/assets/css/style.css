@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .formulario{
     display: flex;
     flex-direction: column;
@@ -90,6 +91,115 @@ input::-webkit-inner-spin-button {
   color: #888;
 }
 
+=======
+.formulario {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.form {
+  background-color: lightgray;
+  border-radius: 15px;
+  width: 700px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto {
+  display: flex;
+  flex-direction: column;
+}
+
+.box-p {
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+}
+
+label {
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+.boton {
+  background-color: #2271b1;
+  border: 0;
+  width: 200px;
+  font-size: 1rem;
+  font-weight: light;
+  padding: 0.7rem;
+  border-radius: 10px;
+  color: white;
+}
+
+.boton:hover {
+  cursor: pointer;
+  background-color: #154c78;
+}
+
+input[type="text"] {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px solid rgba(87, 87, 86, 0.8);
+  border-radius: 0;
+}
+
+input[type="text"]:focus,
+input[type="text"]:active {
+  outline: 0;
+  box-shadow: none;
+  border-color: #1d2327;
+}
+
+input[type="number"] {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px solid rgba(87, 87, 86, 0.8);
+  border-radius: 0;
+}
+
+input[type="number"]:focus,
+input[type="number"]:active {
+  outline: 0;
+  box-shadow: none;
+  border-color: #1d2327;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.file-upload {
+  position: relative;
+  width: 700px;
+  height: 100px;
+  border: 2px dashed gray;
+  margin: 20px auto;
+  text-align: center;
+  line-height: 100px;
+  color: #888;
+}
+
+>>>>>>> 164f498d9c3592ecc458990f8ccc2810d5976b7d
 .custom-button {
   position: absolute;
   top: 0;
@@ -152,6 +262,7 @@ input::-webkit-inner-spin-button {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+<<<<<<< HEAD
 .delete:hover{
     color:white;
     cursor: pointer;
@@ -169,6 +280,28 @@ input::-webkit-inner-spin-button {
     color: white;
     margin-top: 10px;
 }
+=======
+
+.eliminarc:hover {
+  color: white;
+  cursor: pointer;
+  background-color: #b12222;
+}
+
+.eliminarc {
+  text-decoration: none;
+  background-color: #e42222;
+  border: 0;
+  width: 200px;
+  font-size: 1rem;
+  font-weight: light;
+  padding: 0.4em;
+  border-radius: 10px;
+  color: white;
+  margin-top: 10px;
+}
+
+>>>>>>> 164f498d9c3592ecc458990f8ccc2810d5976b7d
 .delete-button {
   display: block;
   margin-top: 10px;
@@ -184,6 +317,10 @@ input::-webkit-inner-spin-button {
 .delete-button:hover {
   background-color: #d32f2f;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 164f498d9c3592ecc458990f8ccc2810d5976b7d
 #catalogo {
   display: flex;
   flex-wrap: wrap;
@@ -198,6 +335,10 @@ input::-webkit-inner-spin-button {
   display: flex;
   flex-direction: column;
   align-items: center;
+<<<<<<< HEAD
+=======
+  border-radius: 5px;
+>>>>>>> 164f498d9c3592ecc458990f8ccc2810d5976b7d
 }
 
 .producto img {
@@ -218,6 +359,7 @@ input::-webkit-inner-spin-button {
   font-size: 16px;
   margin-bottom: 5px;
 }
+<<<<<<< HEAD
 .acciones{
     display: flex;
     justify-content: center;
@@ -230,6 +372,22 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 5px;
+=======
+
+.acciones {
+  display: flex;
+  justify-content: center;
+}
+
+.acciones button {
+  margin: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+>>>>>>> 164f498d9c3592ecc458990f8ccc2810d5976b7d
 }
 
 .acciones button:hover {
@@ -252,6 +410,7 @@ input::-webkit-inner-spin-button {
 .acciones button.eliminar:hover {
   background-color: #c82333;
 }
+<<<<<<< HEAD
 .Lp{
     text-align: center;
 }
@@ -265,3 +424,70 @@ input::-webkit-inner-spin-button {
     justify-content: center;
 }
     
+=======
+
+.Lp {
+  text-align: center;
+}
+
+.Lproducts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.botonform {
+  display: flex;
+  justify-content: center;
+}
+
+/* Codigo categorias */
+
+.botonc:hover {
+  cursor: pointer;
+  background-color: #b12222;
+}
+
+.botonc {
+  background-color: #e42222;
+  border: 0;
+  width: 200px;
+  font-size: 1rem;
+  font-weight: light;
+  padding: .7rem;
+  border-radius: 10px;
+  color: white;
+  margin-top: 10px;
+}
+
+table {
+  table-layout: fixed;
+  width: 90%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+thead {
+  background-color: transparent;
+}
+
+td,
+th {
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  padding: 20px;
+}
+
+th a {}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.botones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+>>>>>>> 164f498d9c3592ecc458990f8ccc2810d5976b7d

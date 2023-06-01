@@ -80,145 +80,6 @@ function mi_plugin_categorias_page_cats() {
 
     // Mostrar formulario
     ?>
-        <style>
-        .formulario{
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            align-items: center;
-            margin: 20px
-        }
-        .form{
-            background-color: lightgray;
-            border-radius: 15px;
-            width: 700px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .producto{
-            display: flex;
-            flex-direction: column;
-        }
-        .box-p{
-            display: flex;
-            justify-content: space-between;
-            width: 500px
-        }
-        label{
-            font-weight: 400;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-        h1{
-            font-size: 2rem;
-            margin-bottom: 5px;
-        }
-        h2{
-            font-size: 1.5rem;
-        }
-        .delete:hover{
-            color:white;
-            cursor: pointer;
-            background-color: #b12222;
-        }
-        .delete{
-            text-decoration:none;
-            background-color: #e42222;
-            border: 0;
-            width: 200px;
-            font-size: 1rem;
-            font-weight: light;
-            padding: .4em;
-            border-radius: 10px;
-            color: white;
-            margin-top: 10px;
-        }
-        .botones{
-            display:flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 15px;
-        }
-        .boton:hover{
-            cursor: pointer;
-            background-color: #154c78;
-        }
-        .boton {
-            background-color: #2271b1;
-            border: 0;
-            width: 200px;
-            font-size: 1rem;
-            font-weight: light;
-            padding: .7rem;
-            border-radius: 10px;
-            color: white;
-            margin-top: 10px;
-        }
-        .botonc:hover{
-            cursor: pointer;
-            background-color: #b12222;
-        }
-        .botonc {
-            background-color: #e42222;
-            border: 0;
-            width: 200px;
-            font-size: 1rem;
-            font-weight: light;
-            padding: .7rem;
-            border-radius: 10px;
-            color: white;
-            margin-top: 10px;
-        }
-        table {
-            table-layout: fixed;
-            width: 90%;
-            border-collapse: collapse;
-            font-size: 1rem;
-        }
-        thead{
-            background-color: transparent;
-        }
-        td, th {
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-            padding: 20px;
-        }
-        th a{
-        }
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-        input[type=text]{
-            background-color: transparent;
-            border: 0;
-            border-bottom: 2px solid rgba(87, 87, 86, 0.8);
-            border-radius: 0;
-        }
-        input[type=text]:focus,
-        input[type=text]:active{
-            outline: 0;
-            box-shadow: none;
-            border-color: #1d2327;
-        }
-        input[type=number]{
-            background-color: transparent;
-            border: 0;
-            border-bottom: 2px solid rgba(87, 87, 86, 0.8);
-            border-radius: 0;
-        }
-        input[type=number]:focus,
-        input[type=number]:active{
-            outline: 0;
-            box-shadow: none;
-            border-color: #1d2327;
-        }
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-    </style>
     <div class="formulario">
         <h1>Gestión de Categorías</h1>
 
@@ -252,9 +113,9 @@ function mi_plugin_categorias_page_cats() {
                 echo '</thead>';
             foreach ($categorias as $categoria) {
                 echo '<tr>';
-                    echo '<td>' .esc_html($categoria->nombre).'</td>';
-                    echo '<td>' . esc_html($categoria->tipo_material) . '</td>';
-                    echo '<td> <a class="delete" href="?page=mi-plugin-categorias&action=delete&categoria_id=' . $categoria->id . '">Eliminar</a> </td>';
+                    echo '<td>' . $categoria->nombre.'</td>';
+                    echo '<td>' . $categoria->tipo_material . '</td>';
+                    echo '<td> <a class="eliminarc" href="?page=mi-plugin-categorias&action=delete&categoria_id=' . $categoria->id . '">Eliminar</a> </td>';
                 echo '</tr>';
             }
             echo '</table>';
