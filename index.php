@@ -587,7 +587,6 @@ function mostrar_productos_shortcode() {
                     <h3><?php echo esc_html($product->producto); ?></h3>
                     <p>Categoría: <?php echo esc_html($product->categoria); ?></p>
                     <p>Precio: <?php echo $product->precio; ?></p>
-                    <p>Descripción: <?php echo esc_html($product->descripcion); ?></p>
                     <div class="product-images">
                         <?php
                         $image_ids = explode(',', $product->imagen_id);
