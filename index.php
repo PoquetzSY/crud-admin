@@ -29,12 +29,6 @@ function Crear_productos() {
     ) $charset_collate;";
 }
 
-function styles() {
-  // Enlazar tu hoja de estilos
-  wp_enqueue_style( 'style', plugins_url( 'public\assets\css\style.css',__FILE__) );
-}
-add_action( 'admin_enqueue_scripts', 'styles' );
-
 function scripts() {
     // Enlazar tu archivo JavaScript
     wp_enqueue_script( 'custom-script', plugins_url( 'public\assets\js\main.js', __FILE__ ), array( 'jquery' ), '1.0', true );
