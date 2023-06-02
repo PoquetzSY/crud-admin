@@ -160,11 +160,11 @@ function mostrar_pagina() {
             </div>
         </form>
     </div>
-    <h2 class="Lp">Listado de Productos</h2>
+    <h2 class="Lp">Ultimos Productos Añadidos</h2>
     <div class="Lproducts">
         <?php
         // Obtener todos los productos de la base de datos
-        $productos = $wpdb->get_results("SELECT * FROM $Ntabla");
+        $productos = $wpdb->get_results("SELECT * FROM $Ntabla ORDER BY id DESC LIMIT 5;");
         if ($productos) {
             foreach ($productos as $producto) {
                 echo '<div id="catalogo">';    
@@ -181,10 +181,6 @@ function mostrar_pagina() {
                         echo '<p>' . $categoria->nombre . '</p>';
                     }
                 echo    '<p>$'. $producto->precio .'</p>';
-                echo    '<div class="acciones">';
-                echo      '<button class="editar">Editar</button>';
-                echo      '<button class="eliminar" onclick="window.location.href=\'?page=mi-plugin-productos&action=delete&product_id=' . $producto->id . '\'">Eliminar</button>';
-                echo    '</div>';
                 echo  '</div>';
                 echo'</div>';
             }
@@ -193,9 +189,6 @@ function mostrar_pagina() {
         }
         ?>
     </div>
-<script>
-    
-</script>
     <?php
 }
 // Shortcode para mostrar la lista de productos en una página de WordPress
