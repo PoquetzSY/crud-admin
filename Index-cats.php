@@ -100,7 +100,7 @@ function mi_plugin_categorias_page_cats() {
         <h2>Listado de Categorías</h2>
         <?php
         // Obtener todas las categorías de la base de datos
-        $categorias = $wpdb->get_results("SELECT * FROM $table_name");
+        $categorias = $wpdb->get_results("SELECT * FROM $table_name ORDER BY nombre");
 
         if ($categorias) {
             echo '<table>';
